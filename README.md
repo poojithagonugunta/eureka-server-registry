@@ -20,15 +20,17 @@ In your project:
 
 This ensures loose coupling and fault tolerance.
 
-                +--------------------+
-                |   Eureka Server    |
-                | (Service Registry) |
-                +---------+----------+
-                          |
-          -------------------------------------
-          |                                   |
-+------------------------+     +---------------------------+
-| payment-processing     |     | paypal-provider-service   |
-|  - Registers to Eureka |     |  - Registers to Eureka    |
-|  - Looks up provider   |     |  - Exposes provider APIs  |
-+------------------------+     +---------------------------+
+**Processing Service
+      |
+      | 1. Ask Eureka: "Where is paypal-provider-service?"
+      v
+Eureka Server
+      |
+      | 2. Returns provider service instance details (host, port)
+      v
+Processing Service
+      |
+      | 3. Calls provider via service name
+      v
+http://paypal-provider-service/api/orders
+**
